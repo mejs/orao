@@ -7,9 +7,9 @@ Orao was an 8-bit computer developed by Miroslav Kocijan for PEL Varaždin in 19
 I've built a replica of this computer based on [Josip Perušanec's Orao 2007 project](http://www.deltasoft.com.hr/projects/orao2007.php?title=Orao%202007). This replica is fully compatible with the original, but it uses a single EPROM and RAM instead of multiple ones like the original.
 
 ### [Roms](https://github.com/mejs/orao/tree/master/roms)
-There were 2 roms for the Orao
-ROM 102: first rom version with basic (sic) BASIC and monitor program. This rom is in BCS.
-ROM 103: second rom version with advanced BASIC and monitor program. This rom is in English
+There were 2 roms for the Orao:
+* ROM 102: first rom version with basic (sic) BASIC and monitor program. This rom is in BCS.
+* ROM 103: second rom version with advanced BASIC and monitor program. This rom is in English
 
 Both of these roms were originally stored on two 2764 EPROMs, one would have the BASIC and the other the monitor. The version I have here combines both the 102 and 103 ROM versions with both BASIC and monitor into a single hex bin for loading onto a 27256 EPROM.
 
