@@ -1,4 +1,4 @@
-Orao: Yugoslav 8-bit microcomputer
+Orao: Yugoslav 8-bit school microcomputer
 =====================================
 ![logo](/imgs/orao2007.jpg)
 
