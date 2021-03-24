@@ -19,6 +19,13 @@ Both of these roms were originally stored on two 2764 EPROMs, one would have the
 
 Since I don't own an original Orao, I needed a way to connect a regular PS2 keyboard to the replica. This is a work in progress project for an Arduino based interface that uses an MT8816 analog switch matrix to use a PS2 keyboard with the Orao. The interface supports all Orao keys and key combinations including PF keys, control and shift key support. You can find the list of all Orao key combinations [here (in BCS)](https://github.com/mejs/orao/tree/master/tools/orao_keyboard/combinations.png) I've used an Arduino Mega for testing.
 
+![kbdschematics](/imgs/kbdschematics.jpeg)
+
+Orao's keyboard input works by shorting connections between 6 data lines (D4-D7) and 10 address lines (A0-A9). When a key is pressed, the connection is shorted between corresponding lines to input a key press. I.e., to type "A", the key short address line A7 and data line D5. MT8816 is an analog switch relay. It contains a 8 x 16 array of crosspoint switches along with a 7 to 128 line decoder and latch circuits. The 8 lines are labeled Y0-Y7, and the 16 lines are labelled 0-15. MT8816 can connect any Y line with any X line, and it can make multiple concurrent connections. Y1 to Y6 lines are connected to Orao's keyboard connector pins 1-6 (data lines D4-D7), and X0 to X9 are connected to Orao keyboard connector pins 7-16 (address lines A0-A9).
+
+MT8816 connections are slected by seting bits on address inputs AX0-Ax3 and AY0-AY3. The addresses are defined in the [MT8816 datasheet](https://github.com/Hartland/C64-Keyboard/MT8816-datasheet.pdf) in Table 1 - Address Decode Truth Table on page 11. Address inputs are connected to Arduino digital I/O pins 31-37. Arduino uses PS2KeyAdvanced library to read keycodes from the connected PS/2 keyboard, connected to digital I/O pins 2 and 3. When a key is pressed (i.e. 32833 for A), Arduino sets the bits on the address inputs (1100101 for A), raises MT8816 data pin to save it to memory, raises and lowers strobe, holds for 22ms, then lowers data and raises reset. This makes the connection between A7 and D5 on the Orao.
+
+
 Due to the physical difference between modern, Model-M compatible keyboards and Orao's keyboard, I've made the following key placement decisions:
 
 * Insert key is used for * : Orao key
