@@ -13,11 +13,10 @@ There were 2 roms for the Orao:
 
 Both of these roms were originally stored on two 2764 EPROMs, one would have the BASIC and the other the monitor. The version I have here combines both the 102 and 103 ROM versions with both BASIC and monitor into a single hex bin for loading onto a 27256 EPROM.
 
-### Tools
-##### [Orao keyboard](https://github.com/mejs/orao/tree/master/orao_keyboard)
+### [Orao keyboard](https://github.com/mejs/orao/tree/master/orao_keyboard)
 ![keyboard](/imgs/keyboard.png)
 
-Since I don't own an original Orao, I needed a way to connect a regular PS2 keyboard to the replica. This is a work in progress project for an Arduino based interface that uses an MT8816 analog switch matrix to use a PS2 keyboard with the Orao. The interface supports all Orao keys and key combinations including PF keys, control and shift key support. You can find the list of all Orao key combinations [here (in BCS)](https://github.com/mejs/orao/tree/master/tools/orao_keyboard/combinations.png) I've used an Arduino Mega for testing.
+Since I don't own an original Orao, I needed a way to connect a regular PS2 keyboard to the replica. This is a work in progress project for an Arduino based interface that uses an MT8816 analog switch matrix to use a PS2 keyboard with the Orao. The interface supports all Orao keys and key combinations including PF keys, control and shift key support. You can find the list of all Orao key combinations [here (in BCS)](https://github.com/mejs/orao/tree/master/orao_keyboard/combinations.png) I've used an Arduino Mega for testing.
 
 ![kbdschematics](/imgs/kbdschematics.jpeg)
 
