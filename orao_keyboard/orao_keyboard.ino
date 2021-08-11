@@ -69,7 +69,7 @@ void loop() {
     Serial.println( c & 0xFF, HEX );
     }
     // check for some of the special keys
-    if (c == 93) {
+    if (c == 94) {
       Serial.println("dj test");
       digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, LOW); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, LOW); digitalWrite(ANALOG_AY0, HIGH); digitalWrite(ANALOG_AY1, LOW);  digitalWrite(ANALOG_AY2, HIGH); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);  
       delay(100);
@@ -84,7 +84,7 @@ void loop() {
       digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, LOW); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, HIGH); digitalWrite(ANALOG_AY1, LOW);  digitalWrite(ANALOG_AY2, HIGH);  digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);   
       delay(100);
       digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);    
-      } else if (c == 32849) {
+      } else if (c == 81) {
       Serial.println("Q test");
       digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_AX0, HIGH); digitalWrite(ANALOG_AX1, LOW); digitalWrite(ANALOG_AX2, HIGH); digitalWrite(ANALOG_AX3, LOW); digitalWrite(ANALOG_AY0, HIGH); digitalWrite(ANALOG_AY1, LOW);  digitalWrite(ANALOG_AY2, HIGH);  digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);   
       delay(100);
@@ -133,7 +133,13 @@ void loop() {
       Serial.println("PF4 test"); 
       digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, HIGH); digitalWrite(ANALOG_AY1, LOW);  digitalWrite(ANALOG_AY2, LOW);  digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);   
       delay(100);
-      digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);                                                       
+      digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);   
+    } else if (c == 33125) {
+      Serial.println("PF2 + CR test"); 
+      digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, HIGH); digitalWrite(ANALOG_AY1, LOW);  digitalWrite(ANALOG_AY2, HIGH);  digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);   
+      digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_AX0, HIGH); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, HIGH); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, LOW);  digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);   
+      delay(100);
+      digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);                                                            
     } else if (c == 33055) {
       Serial.println("space test");
       digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, HIGH); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, LOW);  digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);   
@@ -332,11 +338,11 @@ void loop() {
       delay(100);
       digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH); 
 
-    } else if (c == 16646) {
-      Serial.println("shift test");
-      digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, LOW); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, HIGH); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_SW_STROBE, LOW);
-      delay(100);
-      digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH); 
+//    } else if (c == 16646) {
+//      Serial.println("shift test");
+//      digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, LOW); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, HIGH); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_SW_STROBE, LOW);
+//      delay(100);
+//      digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH); 
             
     } else if (c == 49201) {
       Serial.println("! test");
@@ -545,7 +551,7 @@ void loop() {
       delay(100);
       digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);          
 
-    } else if (c == 32862) {
+    } else if (c == 93) {
       Serial.println("Sh test");
       digitalWrite(ANALOG_SW_DATA, HIGH);   digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, LOW); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, LOW); digitalWrite(ANALOG_AY0, LOW); digitalWrite(ANALOG_AY1, LOW);  digitalWrite(ANALOG_AY2, HIGH); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);    
       delay(100);
