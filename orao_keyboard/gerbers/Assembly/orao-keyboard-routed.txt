@@ -1,0 +1,8 @@
+Partlist exported from /home/vlado/github/orao/orao_keyboard/orao-keyboard-routed.sch at 9/17/21 8:55 PM
+
+Qty Value                   Device       Package      Parts        Description              MF MPN OC_FARNELL OC_NEWARK TP_SIGNAL_NAME
+1                           ARDUINO_NANO ARDUINO_NANO ARDUINO_NANO Arduino Nano V3.0 Module                                           
+1                           MINI_DIN_6   M_DIN6       X1                                                                              
+1   MT8816AE1               MT8816AE1    DIL40        IC1          8x16 Analog Switch Array                                           
+1   Orao keyboard connector DIL16S       SOCKED-16    IC3          Dual In Line                                                       
+2   TPSPAD1-13              TPSPAD1-13   P1-13        GND, VCC     TEST PIN                                                           
