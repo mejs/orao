@@ -37,11 +37,11 @@ Due to the physical difference between modern, Model-M compatible keyboards and 
 
 This project was inspired by Marko Šolajić's [galaksija-keyboard-interface project](https://github.com/msolajic/galaksija-keyboard-interface) and the [C64-keyboard project](https://github.com/Hartland/C64-Keyboard)
 
-I've designed and manufactured a board that can mount into the keyboard socket on the Orao 2007 clone. The Eagle files are available [here](https://github.com/mejs/orao/tree/master/orao_keyboard/eagle) and the gerber files are [here](https://github.com/mejs/orao/tree/master/orao_keyboard/gerbers)
+I've designed and manufactured a board that can mount into the keyboard socket on the Orao 2007 clone. The Eagle files are available [here](https://github.com/mejs/orao/tree/master/orao_keyboard/eagle) and the gerber files are [here](https://github.com/mejs/orao/tree/master/orao_keyboard/gerbers).
 
 ![orao_keyboard-routed](/imgs/orao-keyboard-routed.png)
 
-### [Gerbers](https://github.com/mejs/orao/tree/master/schematics)
+### [Orao 2007 Gerbers](https://github.com/mejs/orao/tree/master/schematics)
 
 The gerbers files hosted on Josip Perušanec's website include [one connection missing in the gerbers](https://twitter.com/mejs/status/1338876219308322817), preventing video output without an additional jumper. The version hosted here fixes this.
 
