@@ -4,8 +4,8 @@ uint16_t c;
 
 PS2KeyAdvanced keyboard;
 
-#define DATAPIN 2
-#define IRQPIN  3
+#define DATAPIN 3
+#define IRQPIN  2
 
 //MT88xx control pins
 #define ANALOG_SW_CS        6 // Sets selected cross switch on/off (Old 13)
@@ -551,11 +551,18 @@ void loop() {
       digitalWrite(ANALOG_AX0, HIGH); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, LOW); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, HIGH); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_SW_STROBE, LOW);
       digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, LOW); digitalWrite(ANALOG_AX2, HIGH); digitalWrite(ANALOG_AX3, LOW); digitalWrite(ANALOG_AY0, HIGH); digitalWrite(ANALOG_AY1, LOW);  digitalWrite(ANALOG_AY2, LOW); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_SW_STROBE, LOW);      
       delay(100);
-      digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);          
+      digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);
 
+           } else if (c == 8278) {                
+      Serial.println("ctrl V test");
+      digitalWrite(ANALOG_AX0, HIGH); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, LOW); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, HIGH); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_SW_STROBE, LOW);
+      digitalWrite(ANALOG_AX0, LOW); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, LOW); digitalWrite(ANALOG_AY0, LOW); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, HIGH);  digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_SW_STROBE, LOW);    
+      delay(100);
+      digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);    
+        
            } else if (c == 8108) {
       Serial.println("ctrl test");
-      digitalWrite(ANALOG_AX0, HIGH); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, LOW); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, HIGH); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_DATA, HIGH);  digitalWrite(ANALOG_SW_STROBE, LOW);
+      digitalWrite(ANALOG_SW_DATA, HIGH); digitalWrite(ANALOG_AX0, HIGH); digitalWrite(ANALOG_AX1, HIGH); digitalWrite(ANALOG_AX2, LOW); digitalWrite(ANALOG_AX3, HIGH); digitalWrite(ANALOG_AY0, LOW); digitalWrite(ANALOG_AY1, HIGH);  digitalWrite(ANALOG_AY2, HIGH); digitalWrite(ANALOG_SW_STROBE, HIGH); digitalWrite(ANALOG_SW_STROBE, LOW);
       delay(100);
       digitalWrite(ANALOG_SW_DATA, LOW); digitalWrite(ANALOG_SW_RESET, HIGH);  
 
