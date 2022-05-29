@@ -2,7 +2,7 @@
 
 :LOOP:  JSR $E5B0 ; This is the main loop checking for text input. If button is not pressed, then the receive loop is active
 	BEQ :REDIRECT: ; If button press is not detected, go to redirect which then goes to RECEIVE2 loop
-	JSR :LOOP3: ; If button is pressed, go to LOOP3
+	JSR :TYPING: ; If button is pressed, go to TYPING
 :REDIRECT: JSR :RECEIVE2:
 	LDA #$00
 	STA $FA ; Clear button press
@@ -26,7 +26,7 @@
 :LOOP7:	LDA #$0A
 	STA $B000
 	JMP :LOOP6:
-:LOOP3: CMP #$3B ; check if button pressed is enter
+:TYPING: CMP #$3B ; check if button pressed is enter
 	BEQ :LOOP8: ; if button pressed is not enter, go to LOOP8
 	JSR :LOOP9: ; if button pressed is enter, g to LOOP9
 	RTS
