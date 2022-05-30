@@ -16,6 +16,8 @@ Both of these roms were originally stored on two 2764 EPROMs, one would have the
 
 ### [Orao rs232](https://github.com/mejs/orao/tree/master/orao_rs232)
 ![keyboard](/orao_rs232/orao_rs232.png)
+
+
 The Orao has a built in RS232 TX meant for use with a printer, but no built in RX. In order to enable two way serial communication I built a 6551 based rs232 adapter. A gerbers file and a BOM are attached. I wrote a simple terminal emulator which consists of a BASIC and 6502 assembly. I'm still testing the interface.
 
 
