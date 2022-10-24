@@ -34,7 +34,7 @@ Orao's keyboard input works by shorting connections between 6 data lines (D4-D7)
 
 MT8816 connections are selected by seting bits on address inputs AX0-Ax3 and AY0-AY3. The addresses are defined in the [MT8816 datasheet](https://github.com/mejs/orao/tree/master/orao_keyboard/MT8816-datasheet.pdf) in Table 1 - Address Decode Truth Table on page 11. Address inputs are connected to Arduino digital I/O pins 8-14. Arduino uses PS2KeyAdvanced library to read keycodes from the connected PS/2 keyboard, connected to digital I/O pins 2 and 3. When a key is pressed (i.e. 32833 for A), Arduino sets the bits on the address inputs (1100101 for A), raises MT8816 data pin to save it to memory, raises and lowers strobe, holds for 22ms, then lowers data and raises reset. This makes the connection between A7 and D5 on the Orao.
 
-![orao_keyboard](/imgs/orao_keyboard.png)
+![orao_keyboard](/imgs/orao_keyboard2.jpg)
 
 
 Due to the physical difference between modern, Model-M compatible keyboards and Orao's keyboard, I've made the following key placement decisions:
