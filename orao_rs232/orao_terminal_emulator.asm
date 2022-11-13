@@ -129,7 +129,9 @@ JSR :1CHECK:
  "N"
  "I"
  " "
- %59
+ "P"
+ "F"
+ "1"
  " "
  "Z"
  "A"
@@ -282,7 +284,9 @@ JSR :1ACHECK:
  "N"
  "I"
  " "
- %59
+ "P"
+ "F"
+ "1"
  " "
  "Z"
  "A"
@@ -359,7 +363,9 @@ JSR :1ACHECK:
  "N"
  "I"
  " "
- %59
+ "P"
+ "F"
+ "1"
  " "
  "Z"
  "A"
@@ -436,7 +442,9 @@ JSR :1ACHECK:
  "N"
  "I"
  " "
- %59
+ "P"
+ "F"
+ "1"
  " "
  "Z"
  "A"
@@ -500,13 +508,13 @@ JSR :1ACHECK:
 :LOOP7:	LDA #$0A
 	STA $B000
 	JMP :LOOP6:
-:LOOP3: CMP #$3B ; check if button pressed is ;
-	BEQ :LOOP8: ; if button pressed is ;, go to LOOP8
+:LOOP3: CMP #$11 ; check if button pressed is PF1
+	BEQ :LOOP8: ; if button pressed is PF1, go to LOOP8
     JSR :BACKSP:
 	RTS
 :BACKSP: CMP #$1F	
         BEQ :BACKSEND:
-        JSR :LOOP9:
+        JSR :QUESTION:
         RTS
 :BACKSEND: LDA #$08 ; LOAD BACKSPACE HEX
     JSR :PRINT:
@@ -519,6 +527,21 @@ JSR :1ACHECK:
 	JSR $E7B7
     JMP :LOOP:
 	RTS
+:QUESTION: CMP #$12	
+        BEQ :QSEND:
+        JSR :LOOP9:
+        RTS	
+:QSEND: LDA #$3F ; LOAD QUESTIONMARK HEX
+    JSR :PRINT:
+    JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+    JMP :LOOP:
+	RTS        
 :LOOP9: PHA
 	LDA #$10
 :LOOP10:BIT $A800 ; this is the typing and TX loop
