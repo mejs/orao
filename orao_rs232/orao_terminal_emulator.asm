@@ -529,9 +529,24 @@ JSR :1ACHECK:
 	RTS
 :QUESTION: CMP #$12	
         BEQ :QSEND:
-        JSR :LOOP9:
+        JSR :PLUS:
         RTS	
 :QSEND: LDA #$3F ; LOAD QUESTIONMARK HEX
+    JSR :PRINT:
+    JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+    JMP :LOOP:
+	RTS        
+:PLUS: CMP #$13	
+        BEQ :PSEND:
+        JSR :LOOP9:
+        RTS	
+:PSEND: LDA #$2B ; LOAD QUESTIONMARK HEX
     JSR :PRINT:
     JSR $E7B7
 	JSR $E7B7
