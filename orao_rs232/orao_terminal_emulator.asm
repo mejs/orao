@@ -471,19 +471,8 @@ JSR :1ACHECK:
 
 :LOOP:  JSR $E5B0 ; This is the main loop checking for text input. If button is not pressed, then the receive loop is active
 	BEQ :REDIRECT: ; If button press is not detected, go to redirect which then goes to RECEIVE2 loop
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
+    JSR :DELAY:
+    JSR :DELAY:
 	JSR :LOOP3: ; If button is pressed, go to LOOP3
 :REDIRECT: JSR :RECEIVE2:
 	LDA #$00
@@ -518,13 +507,7 @@ JSR :1ACHECK:
         RTS
 :BACKSEND: LDA #$08 ; LOAD BACKSPACE HEX
     JSR :PRINT:
-    JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
+    JSR :DELAY:
     JMP :LOOP:
 	RTS
 :QUESTION: CMP #$12	
@@ -533,30 +516,27 @@ JSR :1ACHECK:
         RTS	
 :QSEND: LDA #$3F ; LOAD QUESTIONMARK HEX
     JSR :PRINT:
-    JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
+    JSR :DELAY:
     JMP :LOOP:
 	RTS        
 :PLUS: CMP #$13	
         BEQ :PSEND:
+        JSR :AMPERSAND:
+        RTS	
+:PSEND: LDA #$2B ; LOAD PLUS HEX
+    JSR :PRINT:
+    JSR :DELAY:
+    JMP :LOOP:
+	RTS      
+:AMPERSAND: CMP #$14	
+        BEQ :AMPSEND:
         JSR :LOOP9:
         RTS	
-:PSEND: LDA #$2B ; LOAD QUESTIONMARK HEX
+:AMPSEND: LDA #$26 ; LOAD AMPERSAND HEX
     JSR :PRINT:
-    JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
-	JSR $E7B7
+    JSR :DELAY:
     JMP :LOOP:
-	RTS        
+	RTS       	
 :LOOP9: PHA
 	LDA #$10
 :LOOP10:BIT $A800 ; this is the typing and TX loop
@@ -642,7 +622,14 @@ RTS
 	LDA #$0B 
 	STA $B000
     RTS
-
+:DELAY: JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	JSR $E7B7
+	RTS
 :START ADDRESS: $0800
 :DATA2:
 $38
