@@ -1,3 +1,4 @@
+ ; Orao Terminal version 0.30
  :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
@@ -108,10 +109,6 @@ JSR :CHR:
  "D"
  "E"
  "M"
- " "
- "M"
- "O"
- "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
  "P"
@@ -239,33 +236,13 @@ JSR :CHR:
  "2"
  "3"
  "2"
- " "
- "M"
- "O"
- "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "B"
- "R"
- "Z"
- "I"
- "N"
- "A"
- " "
  "3"
  "0"
  "0"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "P"
- "R"
- "I"
- "T"
- "I"
- "S"
- "N"
- "I"
- " "
  "P"
  "F"
  "1"
@@ -308,34 +285,14 @@ JSR :CHR:
  "2"
  "3"
  "2"
- " "
- "M"
- "O"
- "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "B"
- "R"
- "Z"
- "I"
- "N"
- "A"
- " "
  "2"
  "4"
  "0"
  "0"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "P"
- "R"
- "I"
- "T"
- "I"
- "S"
- "N"
- "I"
- " "
  "P"
  "F"
  "1"
@@ -378,34 +335,14 @@ JSR :CHR:
  "2"
  "3"
  "2"
- " "
- "M"
- "O"
- "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "B"
- "R"
- "Z"
- "I"
- "N"
- "A"
- " "
  "4"
  "8"
  "0"
  "0"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "P"
- "R"
- "I"
- "T"
- "I"
- "S"
- "N"
- "I"
- " "
  "P"
  "F"
  "1"
@@ -454,20 +391,18 @@ JSR :CHR:
 	STA $B000
 	JMP :LOOP6:
 :LOOP3: CMP #$11 ; check if button pressed is PF1
-	BEQ :LOOP8: ; if button pressed is PF1, go to LOOP8
+	BEQ :LOOP8: ; if button pressed is PF1, go to LOOP8. If not, go to BACKSP
     JSR :BACKSP:
 	RTS
-:BACKSP: CMP #$1F	
-        BEQ :BACKSEND:
-        JSR :SHIFT:
-        RTS
+:BACKSP: CMP #$1F	; check if button pressed is left arrow
+        BEQ :BACKSEND: ; if button pressed is left arrow, go to BACKSEND. If not, go to SHIFT
+        JMP :SHIFT:
 :BACKSEND: LDA #$08 ; LOAD BACKSPACE HEX
     JMP :PRINTCOMBO:     
-:SHIFT: LDX $87FB
-        CPX #$D0
-        BNE :LOOP9:
-        JSR :EXCSEND:
-        RTS	
+:SHIFT: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0 ; Check if it's equal to D0
+        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
+        JMP :EXCSEND:	; If shift is pressed, go to EXCSEND
 :EXCSEND: LDX $87DE
     CPX #$70
     BNE :QUOTESEND:
@@ -554,9 +489,48 @@ JSR :CHR:
     JMP :PRINTCOMBO: 
 :QSEND: LDX $85FF
 	CPX #$E0
-	BNE :LOOP9:
+	BNE :UPPERCASE:
 	LDA #$3F
     JMP :PRINTCOMBO: 
+:UPPERCASE: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0 ; Check if it's equal to D0
+        BNE :JUMP9: ; If shift isn't pressed, go to LOOP 9
+        LDY $FA
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	TYA
+	JMP :PRINTCOMBO: 
+:JUMP9: JMP :LOOP9:
 :TYPING:JSR $E71C
 	LDA #$FC
 	BEQ :TYPING:
@@ -626,6 +600,9 @@ RTS
 	JSR $E7B7
 	RTS
 :PRINTCOMBO: JSR :PRINT:
+	JSR :DELAY:
+	JSR :DELAY:
+	JSR :DELAY:
 	JSR :DELAY:
 	JMP :LOOP:
 	RTS
