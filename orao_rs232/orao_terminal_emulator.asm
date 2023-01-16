@@ -1,5 +1,5 @@
- ; Orao Terminal version 0.30
- :START ADDRESS: $0400
+ ; Orao Terminal version 0.31
+  :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
  LDA #$E7
@@ -401,43 +401,12 @@ JSR :CHR:
     JMP :PRINTCOMBO:     
 :SHIFT: LDX $87FB ; Load value of 87FB into X register
         CPX #$D0 ; Check if it's equal to D0
+	JSR :DELAY:
+	JSR :DELAY:
+	JSR :DELAY:
+	JSR :DELAY:
         BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
-        JMP :EXCSEND:	; If shift is pressed, go to EXCSEND
-:EXCSEND: LDX $87DE
-    CPX #$70
-    BNE :QUOTESEND:
-    LDA #$21
-    JMP :PRINTCOMBO:       
-:QUOTESEND: LDX $87DF
-	CPX #$E0
-	BNE :POUNDSEND:
-	LDA #$22
-    JMP :PRINTCOMBO:     
-:POUNDSEND: LDX $87DF
-	CPX #$D0
-	BNE :DOLLARSEND:
-	LDA #$23
-    JMP :PRINTCOMBO:     
-:DOLLARSEND: LDX $87F7
-	CPX #$D0
-	BNE :PERCENTSEND:
-	LDA #$24
-    JMP :PRINTCOMBO:     
-:PERCENTSEND: LDX $87F7
-	CPX #$E0
-	BNE :AMPSEND:
-	LDA #$25
-    JMP :PRINTCOMBO:     
-:AMPSEND: LDX $87F6
-	CPX #$70
-	BNE :APOSSEND:
-	LDA #$26
-    JMP :PRINTCOMBO:   
-:APOSSEND: LDX $87EE
-	CPX #$70
-	BNE :BRACKETLSEND:
-	LDA #$27
-    JMP :PRINTCOMBO:  
+        JMP :EQUALSEND:	; If shift is pressed, go to SYMBOLS
 :LOOP9: PHA
 	LDA #$10
 :LOOP10:BIT $A800 ; this is the typing and TX loop
@@ -447,54 +416,66 @@ JSR :CHR:
 	JSR :DELAY:
 	JSR :DELAY:
 	RTS
-:BRACKETLSEND: LDX $87EF
-	CPX #$E0
-	BNE :BRACKETRSEND:
-	LDA #$28
-    JMP :PRINTCOMBO: 
-:BRACKETRSEND: LDX $87EF
-	CPX #$D0
-	BNE :EQUALSEND:
-	LDA #$29
-    JMP :PRINTCOMBO: 
-:EQUALSEND: LDX $83FF
-	CPX #$E0
-	BNE :PLUSSEND:
-	LDA #$3D
-    JMP :PRINTCOMBO: 
-:PLUSSEND: LDX $83FE
-	CPX #$70
-	BNE :STARSEND:
-	LDA #$2B
-    JMP :PRINTCOMBO: 
-:STARSEND: LDX $85FE
-	CPX #$70
+:EQUALSEND: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0 ; Check if it's equal to D0
+        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
+	LDY $FA
+	CPY #$2D
 	BNE :SMALLERSEND:
-	LDA #$2A
-    JMP :PRINTCOMBO:              	
-:SMALLERSEND: LDX $87BF
-	CPX #$E0
+	LDA #$3D
+    JMP :PRINTCOMBO:            	
+:SMALLERSEND: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0 ; Check if it's equal to D0
+        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
+	LDY $FA
+	CPY #$2C
 	BNE :BIGGERSEND:
 	LDA #$3C
     JMP :PRINTCOMBO: 
-:BIGGERSEND: LDX $87BF
-	CPX #$D0
-	BNE :ATSEND:
+:BIGGERSEND: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0 ; Check if it's equal to D0
+        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
+	LDY $FA
+	CPY #$2E
+	BNE :QSEND:
 	LDA #$3E
     JMP :PRINTCOMBO: 
-:ATSEND: LDX $85FF
-	CPX #$D0
-	BNE :QSEND:
-	LDA #$40
-    JMP :PRINTCOMBO: 
-:QSEND: LDX $85FF
-	CPX #$E0
-	BNE :UPPERCASE:
+:QSEND: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0 ; Check if it's equal to D0
+        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
+	LDY $FA
+	CPY #$2F
+	BNE :SYMBOLS:
 	LDA #$3F
     JMP :PRINTCOMBO: 
+:SYMBOLS: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0 ; Check if it's equal to D0
+        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
+        LDY $FA
+	CPY #$41
+	BCS :UPPERCASE:
+	LDY $FA
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	TYA
+	JMP :PRINTCOMBO: 
 :UPPERCASE: LDX $87FB ; Load value of 87FB into X register
         CPX #$D0 ; Check if it's equal to D0
-        BNE :JUMP9: ; If shift isn't pressed, go to LOOP 9
+        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
         LDY $FA
 	DEY
 	DEY

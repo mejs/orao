@@ -1,3 +1,4 @@
+ ; Orao Terminal version 0.30
  :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
@@ -235,19 +236,8 @@ JSR :CHR:
  "2"
  "3"
  "2"
- " "
- "M"
- "O"
- "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "B"
- "R"
- "Z"
- "I"
- "N"
- "A"
- " "
  "3"
  "0"
  "0"
@@ -295,19 +285,8 @@ JSR :CHR:
  "2"
  "3"
  "2"
- " "
- "M"
- "O"
- "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "B"
- "R"
- "Z"
- "I"
- "N"
- "A"
- " "
  "2"
  "4"
  "0"
@@ -356,19 +335,8 @@ JSR :CHR:
  "2"
  "3"
  "2"
- " "
- "M"
- "O"
- "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
- "B"
- "R"
- "Z"
- "I"
- "N"
- "A"
- " "
  "4"
  "8"
  "0"
@@ -521,10 +489,48 @@ JSR :CHR:
     JMP :PRINTCOMBO: 
 :QSEND: LDX $85FF
 	CPX #$E0
-	BNE :SHIFTCHK:
+	BNE :UPPERCASE:
 	LDA #$3F
     JMP :PRINTCOMBO: 
-:SHIFTCHK: JMP :SHIFT:
+:UPPERCASE: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0 ; Check if it's equal to D0
+        BNE :JUMP9: ; If shift isn't pressed, go to LOOP 9
+        LDY $FA
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	DEY
+	TYA
+	JMP :PRINTCOMBO: 
+:JUMP9: JMP :LOOP9:
 :TYPING:JSR $E71C
 	LDA #$FC
 	BEQ :TYPING:
