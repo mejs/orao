@@ -1,4 +1,4 @@
- ; Orao Terminal version 0.31
+ ; Orao Terminal version 0.32
   :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
@@ -399,14 +399,14 @@ JSR :CHR:
         JMP :SHIFT:
 :BACKSEND: LDA #$08 ; LOAD BACKSPACE HEX
     JMP :PRINTCOMBO:     
-:SHIFT: LDX $87FB ; Load value of 87FB into X register
+:SHIFTCHECK: LDX $87FB ; Load value of 87FB into X register
         CPX #$D0 ; Check if it's equal to D0
-	JSR :DELAY:
-	JSR :DELAY:
-	JSR :DELAY:
-	JSR :DELAY:
-        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
+	RTS
+:SHIFT: LDX $87FB ; Load value of 87FB into X register
+        CPX #$D0
+        BNE :JUMP9: ; If shift isn't pressed, go to LOOP 9
         JMP :EQUALSEND:	; If shift is pressed, go to SYMBOLS
+:JUMP9: JMP :LOOP9:
 :LOOP9: PHA
 	LDA #$10
 :LOOP10:BIT $A800 ; this is the typing and TX loop
@@ -416,42 +416,27 @@ JSR :CHR:
 	JSR :DELAY:
 	JSR :DELAY:
 	RTS
-:EQUALSEND: LDX $87FB ; Load value of 87FB into X register
-        CPX #$D0 ; Check if it's equal to D0
-        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
-	LDY $FA
+:EQUALSEND: LDY $FA
 	CPY #$2D
 	BNE :SMALLERSEND:
 	LDA #$3D
     JMP :PRINTCOMBO:            	
-:SMALLERSEND: LDX $87FB ; Load value of 87FB into X register
-        CPX #$D0 ; Check if it's equal to D0
-        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
-	LDY $FA
+:SMALLERSEND: LDY $FA
 	CPY #$2C
 	BNE :BIGGERSEND:
 	LDA #$3C
     JMP :PRINTCOMBO: 
-:BIGGERSEND: LDX $87FB ; Load value of 87FB into X register
-        CPX #$D0 ; Check if it's equal to D0
-        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
-	LDY $FA
+:BIGGERSEND: LDY $FA
 	CPY #$2E
 	BNE :QSEND:
 	LDA #$3E
     JMP :PRINTCOMBO: 
-:QSEND: LDX $87FB ; Load value of 87FB into X register
-        CPX #$D0 ; Check if it's equal to D0
-        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
-	LDY $FA
+:QSEND: LDY $FA
 	CPY #$2F
 	BNE :SYMBOLS:
 	LDA #$3F
     JMP :PRINTCOMBO: 
-:SYMBOLS: LDX $87FB ; Load value of 87FB into X register
-        CPX #$D0 ; Check if it's equal to D0
-        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
-        LDY $FA
+:SYMBOLS: LDY $FA
 	CPY #$41
 	BCS :UPPERCASE:
 	LDY $FA
@@ -473,10 +458,7 @@ JSR :CHR:
 	DEY
 	TYA
 	JMP :PRINTCOMBO: 
-:UPPERCASE: LDX $87FB ; Load value of 87FB into X register
-        CPX #$D0 ; Check if it's equal to D0
-        BNE :LOOP9: ; If shift isn't pressed, go to LOOP 9
-        LDY $FA
+:UPPERCASE: LDY $FA
 	DEY
 	DEY
 	DEY
@@ -511,7 +493,6 @@ JSR :CHR:
 	DEY
 	TYA
 	JMP :PRINTCOMBO: 
-:JUMP9: JMP :LOOP9:
 :TYPING:JSR $E71C
 	LDA #$FC
 	BEQ :TYPING:
