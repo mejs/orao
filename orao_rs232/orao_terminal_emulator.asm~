@@ -1,4 +1,4 @@
- ; Orao Terminal version 0.31
+ ; Orao Terminal version 0.32
   :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
