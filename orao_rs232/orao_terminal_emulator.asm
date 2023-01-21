@@ -1,4 +1,4 @@
- ; Orao Terminal version 0.34
+ ; Orao Terminal version 0.35
   :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
@@ -363,139 +363,65 @@ JSR :CHR:
  $00 ; END CHECK VALUE
 :END DATA103A:
 
-:LOOP:  LDA #$0B
-	STA $B000
+:LOOP:  LDA #$0B ; Load $0B into accumulator 
+	STA $B000 ; lower DTR and start receiving
 	JSR $E5B0 ; This is the main loop checking for text input. If button is not pressed, then the receive loop is active
-	BEQ :REDIRECT: ; If button press is not detected, go to redirect which then goes to RECEIVE2 loop
+	BEQ :RECEIVEJMP: ; If button press is not detected, go to redirect which then goes to RECEIVE loop
     JSR :DELAY:
     JSR :DELAY:
-	JSR :LOOP3: ; If button is pressed, go to LOOP3
-:REDIRECT: JSR :RECEIVE2: ;check if you can receive and if yes, write on screen
+	JSR :KEYBOARDSTART: ; If button is pressed, go to KEYBOARDSTART
+:RECEIVEJMP: JSR :RECEIVE: ;check if you can receive and if yes, write on screen
     JSR :CLEARBUTTON: ; clear FA of content written on screen
 	LDA $E8 ; check how many rows are filled
-	CMP #$1F ; If 31 rows are filled, go to REDIRECT2 to stop RX
-	BEQ :REDIRECT2:
+	CMP #$1F ; If 31 rows are filled, go to REDIRECT to stop RX
+	BEQ :REDIRECT:
 	JMP :LOOP: ; Go back to start of the main loop
-:REDIRECT2:	JSR :LOOP6: ; go to LOOP6
-:LOOP8:	LDA #$00 ; this clears the screen after pressing enter when the screen was filled
+:REDIRECT:	JSR :FULLSCREEN: ; go to FULLSCREEN
+:CLEARSCREENAFTERTYPE:	LDA #$00 ; this clears the screen after pressing enter when the screen was filled
 	LDA #$0C ; ditto
 	JSR $E762 ; screen erasing routine
 	LDA #$00 ; load #00 to clear the button press
 	STA $FA ; store in FA
 	JMP :LOOP: ; go back to start of loop
-:LOOP6: JSR $E5B0
+:FULLSCREEN: JSR $E5B0
 	CMP #$0D ; check if button pressed is enter
-	BNE :LOOP7: ;if button pressed is not enter, go to loop7
-	JMP :LOOP8: ; if button pressed is enter, go to loop8
-:LOOP7:	LDA #$0A ; Load #0A into Y register 
+	BNE :DTRHIGH: ;if button pressed is not enter, go to DTRHIGH
+	JMP :CLEARSCREENAFTERTYPE: ; if button pressed is enter, go to CLEARSCREENAFTERTYPE
+:DTRHIGH:	LDA #$0A ; Load #0A into Y register 
 	STA $B000 ; store #0A in the command register on the 6551. This raises DTR and stops receiving.
-	JMP :LOOP6:
-:LOOP3: LDY #$0A ; load #0A into Y register
+	JMP :FULLSCREEN:
+:KEYBOARDSTART: LDY #$0A ; load #0A into Y register
 	STY $B000 ; store #0A in the command register on the 6551. This raises DTR and stops receiving.
 	JSR :SHIFTCHECK: ; check if Shift is pressed
-	BEQ :EQUALSEND: ; if Shift is pressed, go to :EQUALSEND:
+	BEQ :SYMBOLSPEC: ; if Shift is pressed, go to :EQUALSEND:
 	CMP #$11 ; check if button pressed is PF1
-	BEQ :LOOP8: ; if button pressed is PF1, go to LOOP8. If not, go to BACKSP
+	BEQ :CLEARSCREENAFTERTYPE: ; if button pressed is PF1, go to CLEARSCREENAFTERTYPE. If not, go to BACKSP
 :BACKSP: CMP #$1F	; check if button pressed is left arrow
-        BEQ :BACKSEND: ; if button pressed is left arrow, go to BACKSEND. If not, go to :LOOP9: for regular typing
-        JMP :LOOP9:
+        BEQ :BACKSEND: ; if button pressed is left arrow, go to BACKSEND. If not, go to :TYPELOOP: for regular typing
+        JMP :TYPELOOP:
 :BACKSEND: LDA #$08 ; LOAD BACKSPACE HEX
     JMP :PRINTCOMBO:     
 :SHIFTCHECK: LDX $87FB ; Load value of 87FB into X register
         CPX #$D0 ; Check if it's equal to D0
 	RTS
-:JUMP9: JMP :LOOP9:
-:LOOP9: PHA
-	LDA #$10
-:LOOP10:BIT $A800 ; this is the typing and TX loop. Check the 6551 status register if you can send by comparing it to #10
-	BEQ :LOOP10: ; If not, loop around
-	PLA ; pull accumulator from stack
-	STA $A000 ; write to 6551 data register 
-	JSR :DELAY:
-	JSR :DELAY:
-	RTS
-:EQUALSEND: LDY $FA
-	CPY #$2D
-	BNE :SMALLERSEND:
-	LDA #$3D
-    JMP :PRINTCOMBO:            	
-:SMALLERSEND: LDY $FA
-	CPY #$2C
-	BNE :BIGGERSEND:
-	LDA #$3C
-    JMP :PRINTCOMBO: 
-:BIGGERSEND: LDY $FA
-	CPY #$2E
-	BNE :QSEND:
-	LDA #$3E
-    JMP :PRINTCOMBO: 
-:QSEND: LDY $FA
-	CPY #$2F
-	BNE :SYMBOLS:
-	LDA #$3F
-    JMP :PRINTCOMBO: 
-:SYMBOLS: LDY $FA
-	CPY #$41
+:SYMBOLSPEC: CMP #$2C
+	BCS :SYMBOLSPECCHK:
+	JMP :SYMBOLS:
+:SYMBOLSPECCHK:	CMP #$30
+	BCS :SYMBOLS:
+	ADC #$10
+	JMP :PRINTCOMBO: 
+:SYMBOLS: CMP #$41
 	BCS :UPPERCASE:
-	LDY $FA
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	TYA
+	SBC #$0F
 	JMP :PRINTCOMBO: 
-:UPPERCASE: LDY $FA
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	DEY
-	TYA
+:UPPERCASE: SBC #$20
 	JMP :PRINTCOMBO: 
-:RECEIVE2:LDA #$08 ; Load #08 into accumulator
+:RECEIVE:LDA #$08 ; Load #08 into accumulator
 	BIT $A800 ; Compare the status register to #08
-	BNE :RECEIVE3: ; If equal to #08, go to :RECEIVE3:
+	BNE :RECEIVE2: ; If equal to #08, go to :RECEIVE2:
 	RTS ; If not, go back to :REDIRECT:
-:RECEIVE3:LDA $A000 ; Load content of 6551 data register into accumulator
+:RECEIVE2:LDA $A000 ; Load content of 6551 data register into accumulator
 	JSR $FFF1 ; write content on screen using the screen writing routine
 	RTS ; return to :REDIRECT:
 :300:	PHA
@@ -518,7 +444,7 @@ JSR :CHR:
 	RTS
 :CLS: LDA #%0		; CLEAR SCREEN
 LDA #%12 	
-JSR $E762
+JSR $E762 ; screen erasing routine
 RTS
 :CHR:  LDA #%12 ; PRINT CHR$(12)
  JSR $E762
@@ -552,6 +478,15 @@ RTS
 	JSR :DELAY:
 	JSR :DELAY:
 	JMP :LOOP:
+	RTS
+:TYPELOOP: PHA
+	LDA #$10
+:TYPELOOPCHECK:BIT $A800 ; this is the typing and TX loop. Check the 6551 status register if you can send by comparing it to #10
+	BEQ :TYPELOOPCHECK: ; If not, loop around
+	PLA ; pull accumulator from stack
+	STA $A000 ; write to 6551 data register 
+	JSR :DELAY:
+	JSR :DELAY:
 	RTS
 :START ADDRESS: $0800
 :DATA2:
