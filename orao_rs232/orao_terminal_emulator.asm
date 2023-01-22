@@ -1,4 +1,4 @@
- ; Orao Terminal version 0.35
+ ; Orao Terminal version 0.36
   :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
@@ -99,7 +99,7 @@ JSR :CHR:
  JMP :LOOP:
 :DATA101:
  %10 ; NEXT LINE
- "W"
+  "W"
  "I"
  "F"
  "I"
@@ -109,6 +109,10 @@ JSR :CHR:
  "D"
  "E"
  "M"
+ " "
+ "M"
+ "O"
+ "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
  "P"
@@ -135,6 +139,13 @@ JSR :CHR:
  "N"
  "J"
  "E"
+ " " 
+ "E"
+ "K" 
+ "R"
+ "A"
+ "N"
+ "A"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN 
  $00 ; END CHECK VALUE
@@ -236,13 +247,33 @@ JSR :CHR:
  "2"
  "3"
  "2"
+ " "
+ "M"
+ "O"
+ "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
+ "B"
+ "R"
+ "Z"
+ "I"
+ "N"
+ "A"
+ " "
  "3"
  "0"
  "0"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
+ "P"
+ "R"
+ "I"
+ "T"
+ "I"
+ "S"
+ "N"
+ "I"
+ " "
  "P"
  "F"
  "1"
@@ -258,6 +289,13 @@ JSR :CHR:
  "N"
  "J"
  "E"
+ " " 
+ "E"
+ "K" 
+ "R"
+ "A"
+ "N"
+ "A"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN 
  $00 ; END CHECK VALUE
@@ -285,14 +323,34 @@ JSR :CHR:
  "2"
  "3"
  "2"
+ " "
+ "M"
+ "O"
+ "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
+ "B"
+ "R"
+ "Z"
+ "I"
+ "N"
+ "A"
+ " "
  "2"
  "4"
  "0"
  "0"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
+ "P"
+ "R"
+ "I"
+ "T"
+ "I"
+ "S"
+ "N"
+ "I"
+ " "
  "P"
  "F"
  "1"
@@ -308,6 +366,13 @@ JSR :CHR:
  "N"
  "J"
  "E"
+ " " 
+ "E"
+ "K" 
+ "R"
+ "A"
+ "N"
+ "A"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN 
  $00 ; END CHECK VALUE
@@ -335,14 +400,34 @@ JSR :CHR:
  "2"
  "3"
  "2"
+ " "
+ "M"
+ "O"
+ "D"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
+ "B"
+ "R"
+ "Z"
+ "I"
+ "N"
+ "A"
+ " "
  "4"
  "8"
  "0"
  "0"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
+ "P"
+ "R"
+ "I"
+ "T"
+ "I"
+ "S"
+ "N"
+ "I"
+ " "
  "P"
  "F"
  "1"
@@ -358,6 +443,13 @@ JSR :CHR:
  "N"
  "J"
  "E"
+ " " 
+ "E"
+ "K" 
+ "R"
+ "A"
+ "N"
+ "A"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN 
  $00 ; END CHECK VALUE
