@@ -1,4 +1,4 @@
- ; Orao Terminal version 0.36
+ ; Orao Terminal version 0.37
   :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
@@ -33,6 +33,11 @@ JSR :CLS:
  "N"
  "A"
  "L"
+ " "
+ "0"
+ "."
+ "3"
+ "7"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
  "O"
@@ -485,14 +490,19 @@ JSR :CHR:
 :KEYBOARDSTART: LDY #$0A ; load #0A into Y register
 	STY $B000 ; store #0A in the command register on the 6551. This raises DTR and stops receiving.
 	JSR :SHIFTCHECK: ; check if Shift is pressed
-	BEQ :SYMBOLSPEC: ; if Shift is pressed, go to :EQUALSEND:
+	BEQ :SYMBOLSPEC: ; if Shift is pressed, go to :SYMBOLSPEC:
 	CMP #$11 ; check if button pressed is PF1
 	BEQ :CLEARSCREENAFTERTYPE: ; if button pressed is PF1, go to CLEARSCREENAFTERTYPE. If not, go to BACKSP
 :BACKSP: CMP #$1F	; check if button pressed is left arrow
         BEQ :BACKSEND: ; if button pressed is left arrow, go to BACKSEND. If not, go to :TYPELOOP: for regular typing
-        JMP :TYPELOOP:
+        JMP :RESTART:
 :BACKSEND: LDA #$08 ; LOAD BACKSPACE HEX
     JMP :PRINTCOMBO:     
+:RESTARTJMP: JMP $0400
+:LOOPJMP: JMP :LOOP:
+:RESTART: CMP #$14
+	BEQ :RESTARTJMP:
+	JMP :PRINTCOMBO:
 :SHIFTCHECK: LDX $87FB ; Load value of 87FB into X register
         CPX #$D0 ; Check if it's equal to D0
 	RTS
@@ -507,7 +517,9 @@ JSR :CHR:
 	BCS :UPPERCASE:
 	SBC #$0F
 	JMP :PRINTCOMBO: 
-:UPPERCASE: SBC #$20
+:UPPERCASE: CMP #$5B
+	BCC :LOOPJMP:
+	SBC #$20
 	JMP :PRINTCOMBO: 
 :RECEIVE:LDA #$08 ; Load #08 into accumulator
 	BIT $A800 ; Compare the status register to #08
@@ -551,10 +563,8 @@ RTS
 	BEQ :PRINTLOOP:
 	PLA
 	STA $A000
-    LDA #$00
+  	LDA #$00
 	STA $FA
-	LDA #$0B 
-	STA $B000
     RTS
 :DELAY: JSR $E7B7
 	JSR $E7B7
@@ -568,17 +578,8 @@ RTS
 	JSR :DELAY:
 	JSR :DELAY:
 	JSR :DELAY:
-	JSR :DELAY:
+;	JSR :DELAY:
 	JMP :LOOP:
-	RTS
-:TYPELOOP: PHA
-	LDA #$10
-:TYPELOOPCHECK:BIT $A800 ; this is the typing and TX loop. Check the 6551 status register if you can send by comparing it to #10
-	BEQ :TYPELOOPCHECK: ; If not, loop around
-	PLA ; pull accumulator from stack
-	STA $A000 ; write to 6551 data register 
-	JSR :DELAY:
-	JSR :DELAY:
 	RTS
 :START ADDRESS: $0800
 :DATA2:
