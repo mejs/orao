@@ -1,4 +1,4 @@
- ; Orao Terminal version 0.37
+ ; Orao Terminal version 0.38
   :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
@@ -37,7 +37,7 @@ JSR :CLS:
  "0"
  "."
  "3"
- "7"
+ "8"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
  "O"
@@ -575,6 +575,7 @@ RTS
 	JSR $E7B7
 	RTS
 :PRINTCOMBO: JSR :PRINT:
+	JSR :DELAY:
 	JSR :DELAY:
 	JSR :DELAY:
 	JSR :DELAY:
