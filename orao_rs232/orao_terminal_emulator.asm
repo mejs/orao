@@ -1,4 +1,4 @@
- ; Orao Terminal version 0.38
+ ; Orao Terminal version 0.39
   :START ADDRESS: $0400
  LDA #$62	; FIX AUTOSTART HACK
  STA $0218
@@ -37,7 +37,7 @@ JSR :CLS:
  "0"
  "."
  "3"
- "8"
+ "9"
  %10 ; NEXT LINE
  %13 ; CARRIAGE RETURN
  "O"
@@ -489,8 +489,10 @@ JSR :CHR:
 	JMP :FULLSCREEN:
 :KEYBOARDSTART: LDY #$0A ; load #0A into Y register
 	STY $B000 ; store #0A in the command register on the 6551. This raises DTR and stops receiving.
+	TAX
 	JSR :SHIFTCHECK: ; check if Shift is pressed
 	BEQ :SYMBOLSPEC: ; if Shift is pressed, go to :SYMBOLSPEC:
+	TXA
 	CMP #$11 ; check if button pressed is PF1
 	BEQ :CLEARSCREENAFTERTYPE: ; if button pressed is PF1, go to CLEARSCREENAFTERTYPE. If not, go to BACKSP
 :BACKSP: CMP #$1F	; check if button pressed is left arrow
@@ -503,10 +505,11 @@ JSR :CHR:
 :RESTART: CMP #$14
 	BEQ :RESTARTJMP:
 	JMP :PRINTCOMBO:
-:SHIFTCHECK: LDX $87FB ; Load value of 87FB into X register
-        CPX #$D0 ; Check if it's equal to D0
+:SHIFTCHECK: LDA $87FB ; Load value of 87FB into X register
+	AND #$20
 	RTS
-:SYMBOLSPEC: CMP #$2C
+:SYMBOLSPEC: TXA
+	CMP #$2C
 	BCS :SYMBOLSPECCHK:
 	JMP :SYMBOLS:
 :SYMBOLSPECCHK:	CMP #$30
